@@ -7,8 +7,8 @@ Player::Player(){
     // // m_direction = {0.0, -1.0};
     // m_direction[0] = -1; m_direction[1] = 0;
     // m_cameraPlane[0] = 0; m_cameraPlane[1] = SDL_tan(33 * 3.1415926 / 180);
-    playerPos.x = 12;
-    playerPos.y = 12;
+    playerPos.x = 11.5;
+    playerPos.y = 22;
 
     playerDirection.x = -1.0;
     playerDirection.y = 0.0;

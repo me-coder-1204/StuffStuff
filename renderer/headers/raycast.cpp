@@ -18,6 +18,7 @@ Map::Map(){
     addTexture("./textures/pattern.bmp");
     addTexture("./textures/wood.bmp");
     addTexture("./textures/light_wood.bmp");
+    addTexture("./textures/warn.bmp");
 }
 
 // Map::~Map(){

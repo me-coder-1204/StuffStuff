@@ -44,7 +44,7 @@ Application::Application(int wid, int hei){
 
     delTime = 1.0 / (double) m_display.refresh_rate; 
 
-    m_map.importMapFromTxt("./maps/map0.txt");
+    m_map.importMapFromTxt("./maps/map2.txt");
     std::cout << "Currently loaded map: \n";
     for(int i=0;i<m_map.width;i++){
         for(int j=0;j<m_map.height;j++){
