@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include<typeinfo>
+#include<fstream>
 
 Player::Player(){
     // m_x = x;
@@ -58,6 +59,62 @@ void Player::movePlayer(double delTime, Map map){
 
 void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height){
     // int wid = display.w;
+    for(int y=0;y<height/2;y++){
+        for(int x=0;x<=width;x++){
+            Coords roofHit;
+            // int l = x - width/2;
+            double camX = 2 * x/(double)width - 1;
+            int roofHeight = 1;
+            double heightVec = 0.66/320;
+            Coords rayDir = camX * cameraPlane + playerDirection;
+            double p1 =  roofHeight * rayDir.x / (2*(height/2-y) * heightVec);
+            double p2 =  roofHeight * rayDir.y / (2*(height/2-y) * heightVec);
+
+            roofHit.x = p1 + playerPos.x;
+            roofHit.y = p2 + playerPos.y;
+
+            roofHit = roofHit - floorCoords(roofHit);
+
+            int pixelRow = floor(map.textureSize.x * roofHit.x);
+            int pixelCol = floor(map.textureSize.y * roofHit.y);
+
+
+
+            // fout << roofHit.x << " " << roofHit.y << std::endl;
+            // std::cout << pixelRow << " " << pixelCol <<std::endl;
+
+            ColorRGB pixelColor = map.textureSet.at(2).at(pixelRow * map.textureSize.x + pixelCol);
+
+            SDL_SetRenderDrawColor(renderer, pixelColor.r, pixelColor.g, pixelColor.b, 255);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
+
+    for(int y=height;y>height/2;y--){
+        for(int x=0;x<=width;x++){
+            Coords roofHit;
+            // int l = x - width/2;
+            double camX = 2 * x/(double)width - 1;
+            int roofHeight = 1;
+            double heightVec = 0.66/320;
+            Coords rayDir = camX * cameraPlane + playerDirection;
+            double p1 =  roofHeight * rayDir.x / (2*(y-height/2) * heightVec);
+            double p2 =  roofHeight * rayDir.y / (2*(y-height/2) * heightVec);
+
+            roofHit.x = p1 + playerPos.x;
+            roofHit.y = p2 + playerPos.y;
+
+            roofHit = roofHit - floorCoords(roofHit);
+
+            int pixelRow = floor(map.textureSize.x * roofHit.x);
+            int pixelCol = floor(map.textureSize.y * roofHit.y);
+
+            ColorRGB pixelColor = map.textureSet.at(0).at(pixelRow * map.textureSize.x + pixelCol);
+
+            SDL_SetRenderDrawColor(renderer, pixelColor.r, pixelColor.g, pixelColor.b, 255);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
 
     for(int x=0;x<width;x++){
         double cameraX = (2 * x/ (double) width) - 1;
