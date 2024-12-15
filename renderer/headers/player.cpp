@@ -24,8 +24,8 @@ void Player::movePlayer(double delTime, Map map){
     const Uint8 * keys = SDL_GetKeyboardState(NULL);
 
     if(keys[SDL_SCANCODE_UP]){
-        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x + moveSpeed * playerDirection.x * delTime)]) playerPos.x += moveSpeed * playerDirection.x * delTime;
-        if(!map.mapArray[(int)floor(playerPos.y + moveSpeed * playerDirection.y * delTime)][(int)floor(playerPos.x)]) playerPos.y += moveSpeed * playerDirection.y * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x + moveSpeed * playerDirection.x * delTime + ((0 < playerDirection.x) - (0 > playerDirection.x)) * 0.2)]) playerPos.x += moveSpeed * playerDirection.x * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y + moveSpeed * playerDirection.y * delTime + ((0 < playerDirection.y) - (0 > playerDirection.y)) * 0.2)][(int)floor(playerPos.x)]) playerPos.y += moveSpeed * playerDirection.y * delTime;
     }
 
     if(keys[SDL_SCANCODE_DOWN]){
@@ -52,6 +52,8 @@ void Player::movePlayer(double delTime, Map map){
         cameraPlane.x = planeOld.x * cos(-rotateSpeed * delTime) - planeOld.y * sin(-rotateSpeed * delTime);
         cameraPlane.y = planeOld.x * sin(-rotateSpeed * delTime) + planeOld.y * cos(-rotateSpeed * delTime);
     }
+
+    if(keys[SDL_SCANCODE_K]) std::cout << playerPos.x << " " << playerPos.y << std::endl;
 }
 
 void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height){
