@@ -99,7 +99,7 @@ void Application::loop(){
         clearscr();
         m_player.cameraRender(m_map, m_renderer, Application::width, Application::height);
         SDL_RenderPresent(m_renderer); 
-        m_player.movePlayer(delTime);
+        m_player.movePlayer(delTime, m_map);
     }
     // SDL_RenderPresent(m_renderer); 
 }

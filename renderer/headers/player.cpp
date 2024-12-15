@@ -17,20 +17,20 @@ Player::Player(){
     cameraPlane.y = SDL_tan(33 * 3.1415926 / 180);
 
     moveSpeed = 5.0;
-    rotateSpeed = 2.0;
+    rotateSpeed = 3.0;
 }
 
-void Player::movePlayer(double delTime){
+void Player::movePlayer(double delTime, Map map){
     const Uint8 * keys = SDL_GetKeyboardState(NULL);
 
     if(keys[SDL_SCANCODE_UP]){
-        playerPos.x += moveSpeed * playerDirection.x * delTime;
-        playerPos.y += moveSpeed * playerDirection.y * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x + moveSpeed * playerDirection.x * delTime)]) playerPos.x += moveSpeed * playerDirection.x * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y + moveSpeed * playerDirection.y * delTime)][(int)floor(playerPos.x)]) playerPos.y += moveSpeed * playerDirection.y * delTime;
     }
 
     if(keys[SDL_SCANCODE_DOWN]){
-        playerPos.x -= moveSpeed * playerDirection.x * delTime;
-        playerPos.y -= moveSpeed * playerDirection.y * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x - moveSpeed * playerDirection.x * delTime)]) playerPos.x -= moveSpeed * playerDirection.x * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y - moveSpeed * playerDirection.y * delTime)][(int)floor(playerPos.x)]) playerPos.y -= moveSpeed * playerDirection.y * delTime;
     }
 
     if(keys[SDL_SCANCODE_LEFT]){

@@ -12,7 +12,7 @@ class Player
 
         SDL_Event m_event;
 
-        void movePlayer(double delTime);
+        void movePlayer(double delTime, Map map);
         void cameraRender(Map map, SDL_Renderer* renderer, int width, int height);
 
     private:
