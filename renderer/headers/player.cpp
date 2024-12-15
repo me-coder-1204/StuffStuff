@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include<typeinfo>
 
 Player::Player(){
     // m_x = x;
@@ -109,39 +110,64 @@ void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height
 
         int lineHeight = (int) height / perpWallDistance;
         int drawStart = -lineHeight / 2 + height / 2;
-        if(drawStart < 0)drawStart = 0;
+        // if(drawStart < 0)drawStart = 0;
         int drawEnd = lineHeight / 2 + height / 2;
-        if(drawEnd >= height)drawEnd = height - 1;
+        // if(drawEnd >= height)drawEnd = height - 1;
 
-        ColorRGB color;
-        switch (map.mapArray[(int)mapPos.y][(int) mapPos.x])
-        {
-        case 1:
-            color = RGB_RED;
-            break;
+        double wallX;
+        if(!side) wallX = playerPos.y + perpWallDistance * rayDirection.y;
+        else wallX = playerPos.x + perpWallDistance * rayDirection.x;
+
+        wallX -= floor(wallX);
+
+        int pixelCol = floor(map.textureSize.x * wallX);
+
+        // ColorRGB color;
+        // switch (map.mapArray[(int)mapPos.y][(int) mapPos.x])
+        // {
+        // case 1:
+        //     color = RGB_RED;
+        //     break;
         
-        case 2:
-            color = RGB_BLUE;
-            break;
-        case 3:
-            color = RGB_GREEN;
-            break;
+        // case 2:
+        //     color = RGB_BLUE;
+        //     break;
+        // case 3:
+        //     color = RGB_GREEN;
+        //     break;
 
-        case 4:
-            color = RGB_NAVY;
-            break;
+        // case 4:
+        //     color = RGB_NAVY;
+        //     break;
 
-        case 5:
-            color = RGB_GRAY;
-            break;
+        // case 5:
+        //     color = RGB_GRAY;
+        //     break;
         
-        default:
-            color = RGB_WHITE;
-            break;
+        // default:
+        //     color = RGB_WHITE;
+        //     break;
+        // }
+
+        // if(side==1) color = color/2;
+        // SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+
+        int textureNum = map.mapArray[(int)mapPos.y][(int)mapPos.x] - 1;
+        std::vector texture = map.textureSet.at(textureNum);
+
+        for(int y = drawStart; y<drawEnd; y++){
+            if(y < 0 || y > height) continue;
+            int pixelRow = floor(((double)(y-drawStart)/lineHeight) * map.textureSize.y);
+            // std::cout << pixelRow <<std::endl;
+            ColorRGB pixelColor = texture.at(map.textureSize.x * pixelRow + pixelCol);
+            // std::cout << typeid(pixelColor.r).name() <<std::endl;
+            if(side==1) pixelColor = pixelColor / 2;
+            // std::cout << pixelCol << " " << pixelRow << std::endl;
+            // std::cout << pixelColor.r << " " << pixelColor.g << " " << pixelColor.b << std::endl;
+            SDL_SetRenderDrawColor(renderer, pixelColor.r, pixelColor.g, pixelColor.b, 255);
+            SDL_RenderDrawPoint(renderer, x, y);
         }
 
-        if(side==1) color = color/2;
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-        SDL_RenderDrawLine(renderer, x, drawStart, x, drawEnd);
+        // SDL_RenderDrawLine(renderer, x, drawStart, x, drawEnd);
     }
 }

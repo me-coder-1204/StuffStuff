@@ -58,6 +58,7 @@ Application::Application(int wid, int hei){
 
     roof.x = 0; roof.y = 0;
     roof.h = height/2; roof.w = width;
+
 }
 
 Application::~Application(){

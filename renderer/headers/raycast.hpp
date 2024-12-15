@@ -1,3 +1,5 @@
+#pragma once
+
 #include<fstream>
 #include<iostream>
 #include<vector>
@@ -5,7 +7,7 @@
 #include "graph.hpp"
 
 class Map
-{
+{   
     public:
         Map();
         ~Map()=default;
@@ -13,9 +15,13 @@ class Map
         int width;
         int height;
         int** mapArray;
-        int textureCount;
 
-        // std::vector<std::vector<ColorRGB>> texture;
+        int textureCount;
+        Coords textureSize;
+
+        std::vector<std::vector<ColorRGB>> textureSet;
 
         void importMapFromTxt(std::string file_name);
+        std::vector<ColorRGB> readBMP(const std::string &file);
+        void addTexture(const std::string& file);
 };
