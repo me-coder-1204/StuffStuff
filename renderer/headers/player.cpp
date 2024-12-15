@@ -29,8 +29,8 @@ void Player::movePlayer(double delTime, Map map){
     }
 
     if(keys[SDL_SCANCODE_DOWN]){
-        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x - moveSpeed * playerDirection.x * delTime)]) playerPos.x -= moveSpeed * playerDirection.x * delTime;
-        if(!map.mapArray[(int)floor(playerPos.y - moveSpeed * playerDirection.y * delTime)][(int)floor(playerPos.x)]) playerPos.y -= moveSpeed * playerDirection.y * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y)][(int)floor(playerPos.x - moveSpeed * playerDirection.x * delTime - ((0 < playerDirection.x) - (0 > playerDirection.x)) * 0.2)]) playerPos.x -= moveSpeed * playerDirection.x * delTime;
+        if(!map.mapArray[(int)floor(playerPos.y - moveSpeed * playerDirection.y * delTime - ((0 < playerDirection.y) - (0 > playerDirection.y)) * 0.2)][(int)floor(playerPos.x)]) playerPos.y -= moveSpeed * playerDirection.y * delTime;
     }
 
     if(keys[SDL_SCANCODE_LEFT]){

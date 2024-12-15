@@ -11,11 +11,13 @@ Map::Map(){
 
     textureSize.x = 16; textureSize.y = 16;
 
-    addTexture("./textures/wall0.bmp");
-    addTexture("./textures/wall1.bmp");
-    addTexture("./textures/wall3.bmp");
-    addTexture("./textures/wall4.bmp");
-    addTexture("./textures/wall5.bmp");
+    addTexture("./textures/brick_wall.bmp");
+    addTexture("./textures/cobble.bmp");
+    addTexture("./textures/blue_brick.bmp");
+    addTexture("./textures/purp.bmp");
+    addTexture("./textures/pattern.bmp");
+    addTexture("./textures/wood.bmp");
+    addTexture("./textures/light_wood.bmp");
 }
 
 // Map::~Map(){
@@ -27,7 +29,7 @@ Map::Map(){
 // }
 
 void Map::importMapFromTxt(std::string file_name){
-
+    
     std::ifstream fp(file_name);
     if (! fp) {
         std::cout << "Error, file couldn't be opened" << std::endl; 
