@@ -92,8 +92,8 @@ Coords operator/(const Coords& coord, const double a){
 
 Coords floorCoords(const Coords& coords){
     Coords c;
-    c.x = (int) coords.x;
-    c.y = (int) coords.y;
+    c.x = floor(coords.x);
+    c.y = floor(coords.y);
     return c;
 }
 
