@@ -71,11 +71,11 @@ Application::~Application(){
 
 void Application::clearscr(){
     // std::cout << m_renderer << "\n";
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 0);
     SDL_RenderClear(m_renderer);
-    SDL_SetRenderDrawColor(m_renderer, RGB_GRAY.r, RGB_GRAY.g, RGB_GRAY.b, 255);
-    SDL_RenderFillRect(m_renderer, &floor);
-    SDL_SetRenderDrawColor(m_renderer, RGB_TEAL.r, RGB_TEAL.g, RGB_TEAL.b, 255);
+    // SDL_SetRenderDrawColor(m_renderer, RGB_GRAY.r, RGB_GRAY.g, RGB_GRAY.b, 255);
+    // SDL_RenderFillRect(m_renderer, &floor);
+    // SDL_SetRenderDrawColor(m_renderer, RGB_TEAL.r, RGB_TEAL.g, RGB_TEAL.b, 255);
     SDL_RenderFillRect(m_renderer, &roof);
 }
 

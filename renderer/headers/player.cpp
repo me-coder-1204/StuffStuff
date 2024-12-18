@@ -3,11 +3,6 @@
 #include<fstream>
 
 Player::Player(){
-    // m_x = x;
-    // m_y = y;
-    // // m_direction = {0.0, -1.0};
-    // m_direction[0] = -1; m_direction[1] = 0;
-    // m_cameraPlane[0] = 0; m_cameraPlane[1] = SDL_tan(33 * 3.1415926 / 180);
     playerPos.x = 11.5;
     playerPos.y = 22;
 
@@ -78,11 +73,6 @@ void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height
             int pixelRow = floor(map.textureSize.x * roofHit.x);
             int pixelCol = floor(map.textureSize.y * roofHit.y);
 
-
-
-            // fout << roofHit.x << " " << roofHit.y << std::endl;
-            // std::cout << pixelRow << " " << pixelCol <<std::endl;
-
             ColorRGB pixelColor = map.textureSet.at(2).at(pixelRow * map.textureSize.x + pixelCol);
 
             SDL_SetRenderDrawColor(renderer, pixelColor.r, pixelColor.g, pixelColor.b, 255);
@@ -115,11 +105,10 @@ void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height
             SDL_RenderDrawPoint(renderer, x, y);
         }
     }
-
+    
     for(int x=0;x<width;x++){
         double cameraX = (2 * x/ (double) width) - 1;
         Coords rayDirection = playerDirection + (cameraPlane * cameraX); 
-        // std::cout << rayDirection.x << " " << rayDirection.y<< std::endl;
         Coords mapPos = floorCoords(playerPos);
 
         Coords sideDist;
@@ -163,15 +152,13 @@ void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height
             }
             if(map.mapArray[(int) mapPos.y][(int) mapPos.x]) hit=1;
         }
-        // std::cout << "Hit!\n";
+
         if(!side) perpWallDistance = sideDist.x - deltaDist.x;
         else perpWallDistance = sideDist.y - deltaDist.y;
 
         int lineHeight = (int) height / perpWallDistance;
         int drawStart = -lineHeight / 2 + height / 2;
-        // if(drawStart < 0)drawStart = 0;
         int drawEnd = lineHeight / 2 + height / 2;
-        // if(drawEnd >= height)drawEnd = height - 1;
 
         double wallX;
         if(!side) wallX = playerPos.y + perpWallDistance * rayDirection.y;
@@ -181,52 +168,17 @@ void Player::cameraRender(Map map, SDL_Renderer* renderer, int width, int height
 
         int pixelCol = floor(map.textureSize.x * wallX);
 
-        // ColorRGB color;
-        // switch (map.mapArray[(int)mapPos.y][(int) mapPos.x])
-        // {
-        // case 1:
-        //     color = RGB_RED;
-        //     break;
-        
-        // case 2:
-        //     color = RGB_BLUE;
-        //     break;
-        // case 3:
-        //     color = RGB_GREEN;
-        //     break;
-
-        // case 4:
-        //     color = RGB_NAVY;
-        //     break;
-
-        // case 5:
-        //     color = RGB_GRAY;
-        //     break;
-        
-        // default:
-        //     color = RGB_WHITE;
-        //     break;
-        // }
-
-        // if(side==1) color = color/2;
-        // SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-
         int textureNum = map.mapArray[(int)mapPos.y][(int)mapPos.x] - 1;
         std::vector texture = map.textureSet.at(textureNum);
 
         for(int y = drawStart; y<drawEnd; y++){
             if(y < 0 || y > height) continue;
             int pixelRow = floor(((double)(y-drawStart)/lineHeight) * map.textureSize.y);
-            // std::cout << pixelRow <<std::endl;
             ColorRGB pixelColor = texture.at(map.textureSize.x * pixelRow + pixelCol);
-            // std::cout << typeid(pixelColor.r).name() <<std::endl;
             if(side==1) pixelColor = pixelColor / 2;
-            // std::cout << pixelCol << " " << pixelRow << std::endl;
-            // std::cout << pixelColor.r << " " << pixelColor.g << " " << pixelColor.b << std::endl;
             SDL_SetRenderDrawColor(renderer, pixelColor.r, pixelColor.g, pixelColor.b, 255);
             SDL_RenderDrawPoint(renderer, x, y);
         }
 
-        // SDL_RenderDrawLine(renderer, x, drawStart, x, drawEnd);
     }
 }
